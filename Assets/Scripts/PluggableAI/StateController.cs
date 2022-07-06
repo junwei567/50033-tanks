@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class StateController : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class StateController : MonoBehaviour {
 	public EnemyStats enemyStats;
 	public Transform eyes;
 	public State remainState;
+	public GameObject m_RedScreen;
 
 	[HideInInspector] public NavMeshAgent navMeshAgent;
 	[HideInInspector] public TankShooting tankShooting;
@@ -24,6 +26,7 @@ public class StateController : MonoBehaviour {
 	{
 		tankShooting = GetComponent<TankShooting> ();
 		navMeshAgent = GetComponent<NavMeshAgent> ();
+		m_RedScreen = GameObject.Find("Canvas/Red");
 	}
 
 	public void SetupAI(bool aiActivationFromTankManager, List<Transform> wayPointsFromTankManager)
@@ -43,6 +46,13 @@ public class StateController : MonoBehaviour {
 	{
 		if (nextState == remainState) return;
 		currentState = nextState;
+		
+		if(currentState.name == "ChaseScanner" || currentState.name == "ChaseChaser") {
+			var color = m_RedScreen.GetComponent<Image>().color;
+			color.a = 0.8f;
+			m_RedScreen.GetComponent<Image>().color = color;
+		}
+
 		OnExitState();
 	}
 
@@ -57,6 +67,14 @@ public class StateController : MonoBehaviour {
 		if (!aiActive) return;
 
 		currentState.UpdateState(this);
+
+		if (m_RedScreen != null) {
+			if (m_RedScreen.GetComponent<Image>().color.a > 0) {
+				var color = m_RedScreen.GetComponent<Image>().color;
+				color.a -= 0.01f;
+				m_RedScreen.GetComponent<Image>().color = color;
+			}
+		}
 	}
 
 	void OnExitState()

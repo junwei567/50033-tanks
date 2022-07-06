@@ -10685,6 +10685,8 @@ MonoBehaviour:
   enemyStats: {fileID: 11400000, guid: 5d4c0800db61f85488f414b873227a7d, type: 2}
   eyes: {fileID: 4487636023762108}
   remainState: {fileID: 11400000, guid: 0c94314c6282a9d4194a682929995613, type: 2}
+  m_RedScreen: {fileID: 6691164773441301677, guid: b49ee960623e74d03858ec26aa77702d,
+    type: 3}
   navMeshAgent: {fileID: 0}
   tankShooting: {fileID: 0}
   wayPointList: []

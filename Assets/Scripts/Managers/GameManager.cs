@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float m_EndDelay = 3f;               
     public CameraControl m_CameraControl;       
     public Text m_MessageText;                  
+    public Text m_ScoreboardText;
     public GameObject[] m_TankPrefabs;
     public TankManager[] m_Tanks;               
     public List<Transform> wayPointsForAI;
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
 
         m_RoundNumber++;
         m_MessageText.text = $"ROUND {m_RoundNumber}";
+        m_ScoreboardText.text = $"{m_Tanks[0].m_ColoredPlayerText}: {m_Tanks[0].m_Wins}   \n{m_Tanks[1].m_ColoredPlayerText}: {m_Tanks[1].m_Wins}   \n{m_Tanks[2].m_ColoredPlayerText}: {m_Tanks[2].m_Wins}   ";
 
         yield return m_StartWait;
     }
@@ -108,6 +110,11 @@ public class GameManager : MonoBehaviour
         m_RoundWinner = GetRoundWinner();
         if (m_RoundWinner != null) m_RoundWinner.m_Wins++;
 
+        if (m_RoundWinner == m_Tanks[0]) {
+            // I won, improve AI
+            m_Tanks[1].LevelUp();
+            m_Tanks[2].LevelUp();   
+        } 
         m_GameWinner = GetGameWinner();
 
         string message = EndMessage();

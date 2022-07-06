@@ -82,4 +82,8 @@ public class TankManager
         m_Instance.SetActive(true);
     }
 
+    public void LevelUp() {
+        m_Shooting.m_MaxLaunchForce += 3;
+    }
+
 }
